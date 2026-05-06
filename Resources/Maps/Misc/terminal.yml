@@ -47,7 +47,7 @@ entities:
       mapPaused: True
 
     - type: GridTree
-     
+
     - type: Broadphase
     - type: OccluderTree
     - type: LoadedMap
@@ -19223,13 +19223,6 @@ entities:
     components:
     - type: Transform
       pos: -28.440887,17.64114
-      parent: 2
-- proto: ClothingNeckLGBTPin
-  entities:
-  - uid: 3127
-    components:
-    - type: Transform
-      pos: 2.6020877,-21.379698
       parent: 2
 - proto: ClothingNeckScarfStripedBlack
   entities:
@@ -44343,18 +44336,6 @@ entities:
     components:
     - type: Transform
       pos: -13.5,-3.5
-      parent: 2
-- proto: VendingMachinePride
-  entities:
-  - uid: 7036
-    components:
-    - type: Transform
-      pos: -4.5,-21.5
-      parent: 2
-  - uid: 8888
-    components:
-    - type: Transform
-      pos: 1.5,-44.5
       parent: 2
 - proto: VendingMachineRoboDrobe
   entities:

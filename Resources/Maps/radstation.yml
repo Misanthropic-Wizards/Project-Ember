@@ -58,9 +58,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-     
+
     - type: GridTree
-     
+
     - type: Broadphase
     - type: OccluderTree
     - type: LoadedMap
@@ -59325,27 +59325,6 @@ entities:
     - type: Transform
       pos: 19.387924,-13.55324
       parent: 2
-- proto: ClothingNeckAsexualPin
-  entities:
-  - uid: 8843
-    components:
-    - type: Transform
-      pos: 36.19758,26.417822
-      parent: 2
-- proto: ClothingNeckCloakAce
-  entities:
-  - uid: 8844
-    components:
-    - type: Transform
-      pos: 36.222733,26.699072
-      parent: 2
-- proto: ClothingNeckCloakTrans
-  entities:
-  - uid: 8845
-    components:
-    - type: Transform
-      pos: 36.63746,30.719614
-      parent: 2
 - proto: ClothingNeckClownmedal
   entities:
   - uid: 908
@@ -59382,13 +59361,6 @@ entities:
     components:
     - type: Transform
       pos: 20.564407,-13.356026
-      parent: 2
-- proto: ClothingNeckTransPin
-  entities:
-  - uid: 8850
-    components:
-    - type: Transform
-      pos: 36.29247,30.486513
       parent: 2
 - proto: ClothingOuterArmorBulletproof
   entities:
