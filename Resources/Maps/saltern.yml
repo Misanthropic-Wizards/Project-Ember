@@ -29936,13 +29936,6 @@ entities:
     - type: Physics
       angularDamping: 0
       linearDamping: 0
-- proto: ClothingNeckNonBinaryPin
-  entities:
-  - uid: 4813
-    components:
-    - type: Transform
-      pos: 43.27403,-8.317395
-      parent: 2
 - proto: ClothingNeckScarfStripedBlue
   entities:
   - uid: 4814

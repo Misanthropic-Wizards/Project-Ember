@@ -77519,14 +77519,6 @@ entities:
     - type: Transform
       pos: -31.286428,-54.622658
       parent: 2
-- proto: ClothingNeckCloakAce
-  entities:
-  - uid: 12074
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -15.525635,-30.416811
-      parent: 2
 - proto: ClothingNeckCloakMoth
   entities:
   - uid: 12075
