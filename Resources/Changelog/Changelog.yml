@@ -16789,3 +16789,18 @@ Entries:
   id: 7319
   time: '2026-05-08T20:47:17.0000000+00:00'
   url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/3
+- author: CynicalWizard
+  changes:
+    - type: Remove
+      message: >-
+        Отключены некоторые виды: все кроме таяр, людей, унатхов и КПБ. Позже
+        бдут добавлены иные взамен.
+    - type: Remove
+      message: Скрыты отключенные расы из гайдбука.
+    - type: Add
+      message: Добавлен lifecycle-реестр для Dormant/Legacy.
+    - type: Tweak
+      message: Видимые упоминания Reptilian заменены на Unathi.
+  id: 7320
+  time: '2026-05-08T23:32:56.0000000+00:00'
+  url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/4
