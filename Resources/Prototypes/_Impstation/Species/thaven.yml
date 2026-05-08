@@ -1,7 +1,7 @@
 - type: species
   id: Thaven
   name: species-name-thaven
-  roundStart: true
+  roundStart: false # EMBER-DORMANT: see Resources/Prototypes/Ember/species_lifecycle.yml
   prototype: MobThaven
   sprites: MobThavenSprites
   defaultSkinTone: "#ffffff"

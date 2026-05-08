@@ -1,7 +1,7 @@
 - type: species
   id: Oni
   name: species-name-oni
-  roundStart: true
+  roundStart: false # EMBER-DORMANT: see Resources/Prototypes/Ember/species_lifecycle.yml
   prototype: MobOni
   dollPrototype: MobOniDummy
   markingLimits: MobOniMarkingLimits

@@ -78,7 +78,6 @@
   cost: 0
   exclusive: true
   canBeHeirloom: true
-  guideEntry: Plasmaman
   requirements:
     - !type:CharacterItemGroupRequirement
       group: LoadoutUniformsCivilian

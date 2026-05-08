@@ -1,0 +1,71 @@
+- type: emberSpeciesLifecycle
+  id: Harpy
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Arachne
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Oni
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Thaven
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Moth
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: SlimePerson
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Felinid
+  status: Dormant
+  keepAssets: true
+  reason: "EMBER-DORMANT: disabled until genetics and advanced xenobiology can support the species cleanly."
+
+- type: emberSpeciesLifecycle
+  id: Arachnid
+  status: Legacy
+  keepAssets: false
+  reason: "EMBER-LEGACY: retired species; new content must not depend on this species."
+
+- type: emberSpeciesLifecycle
+  id: Vulpkanin
+  status: Legacy
+  keepAssets: false
+  reason: "EMBER-LEGACY: retired species; new content must not depend on this species."
+
+- type: emberSpeciesLifecycle
+  id: Xelthia
+  status: Legacy
+  keepAssets: false
+  reason: "EMBER-LEGACY: retired species; new content must not depend on this species."
+
+- type: emberSpeciesLifecycle
+  id: Plasmaman
+  status: Legacy
+  keepAssets: true
+  reason: "EMBER-LEGACY: retired species with assets temporarily retained while hardcoded gear, loadouts, and mechanics are unwound."
+
+- type: emberSpeciesLifecycle
+  id: Shadowkin
+  status: Legacy
+  keepAssets: false
+  reason: "EMBER-LEGACY: retired species; new content must not depend on this species."
