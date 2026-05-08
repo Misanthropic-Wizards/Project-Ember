@@ -11,9 +11,27 @@ on:
 jobs:
   build:
     if: github.actor != 'PJBot' && github.event.pull_request.draft == false && github.actor != 'DeltaV-Bot' && github.actor != 'SimpleStation14'
+    name: ${{ matrix.name }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        include:
+          - name: Content.Tests
+            os: ubuntu-latest
+            project: Content.Tests/Content.Tests.csproj
+            filter: ''
+          - name: Content.IntegrationTests (maps & save/load)
+            os: ubuntu-latest
+            project: Content.IntegrationTests/Content.IntegrationTests.csproj
+            filter: 'FullyQualifiedName~Content.IntegrationTests.Tests.PostMapInitTest|FullyQualifiedName~Content.IntegrationTests.Tests.SaveLoadMapTest|FullyQualifiedName~Content.IntegrationTests.Tests.SaveLoadSaveTest|FullyQualifiedName~Content.IntegrationTests.Tests._Lavaland.LavalandGenerationTest|FullyQualifiedName~Content.IntegrationTests.Tests.SalvageTest'
+          - name: Content.IntegrationTests (simulation-heavy)
+            os: ubuntu-latest
+            project: Content.IntegrationTests/Content.IntegrationTests.csproj
+            filter: 'FullyQualifiedName~Content.IntegrationTests.Tests.EntityTest|FullyQualifiedName~Content.IntegrationTests.Tests.Power.PowerTest|FullyQualifiedName~Content.IntegrationTests.Tests.Replays.ReplayTests|FullyQualifiedName~Content.IntegrationTests.Tests.Networking|FullyQualifiedName~Content.IntegrationTests.Tests.GameRules|FullyQualifiedName~Content.IntegrationTests.Tests.RoundEndTest|FullyQualifiedName~Content.IntegrationTests.Tests.Round.JobTest|FullyQualifiedName~Content.IntegrationTests.Tests.Station'
+          - name: Content.IntegrationTests (rest)
+            os: ubuntu-latest
+            project: Content.IntegrationTests/Content.IntegrationTests.csproj
+            filter: 'FullyQualifiedName!~Content.IntegrationTests.Tests.PostMapInitTest&FullyQualifiedName!~Content.IntegrationTests.Tests.SaveLoadMapTest&FullyQualifiedName!~Content.IntegrationTests.Tests.SaveLoadSaveTest&FullyQualifiedName!~Content.IntegrationTests.Tests._Lavaland.LavalandGenerationTest&FullyQualifiedName!~Content.IntegrationTests.Tests.SalvageTest&FullyQualifiedName!~Content.IntegrationTests.Tests.EntityTest&FullyQualifiedName!~Content.IntegrationTests.Tests.Power.PowerTest&FullyQualifiedName!~Content.IntegrationTests.Tests.Replays.ReplayTests&FullyQualifiedName!~Content.IntegrationTests.Tests.Networking&FullyQualifiedName!~Content.IntegrationTests.Tests.GameRules&FullyQualifiedName!~Content.IntegrationTests.Tests.RoundEndTest&FullyQualifiedName!~Content.IntegrationTests.Tests.Round.JobTest&FullyQualifiedName!~Content.IntegrationTests.Tests.Station'
 
     runs-on: ${{ matrix.os }}
 
@@ -44,14 +62,25 @@ jobs:
     - name: Build Project
       run: dotnet build --configuration DebugOpt --no-restore /p:WarningsAsErrors=nullable /m
 
-    - name: Run Content.Tests
-      run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0
-
-    - name: Run Content.IntegrationTests
+    - name: Run tests
       shell: pwsh
       run: |
         $env:DOTNET_gcServer=1
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0
+        $testArgs = @(
+          'test',
+          '--no-build',
+          '--configuration',
+          'DebugOpt',
+          '${{ matrix.project }}'
+        )
+
+        $filter = '${{ matrix.filter }}'
+        if ($filter -ne '') {
+          $testArgs += @('--filter', $filter)
+        }
+
+        $testArgs += @('--', 'NUnit.ConsoleOut=0')
+        dotnet @testArgs
   ci-success:
     name: Build & Test Debug
     needs:
