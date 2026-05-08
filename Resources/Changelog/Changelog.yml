@@ -16775,3 +16775,12 @@ Entries:
   id: 7317
   time: '2026-05-07T00:03:34.0000000+00:00'
   url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/1
+- author: CynicalWizard
+  changes:
+    - type: Add
+      message: Добавил новые логотипы проекта.
+    - type: Remove
+      message: Удалил старые логотипы EE.
+  id: 7318
+  time: '2026-05-08T02:53:15.0000000+00:00'
+  url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/2
