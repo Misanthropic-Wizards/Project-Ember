@@ -98,7 +98,7 @@
   parent: BaseSpeciesDummy
   id: MobReptilianDummy
   categories: [ HideSpawnMenu ]
-  description: A dummy reptilian meant to be used in character setup.
+  description: A dummy Unathi meant to be used in character setup.
   components:
   - type: HumanoidAppearance
     species: Reptilian

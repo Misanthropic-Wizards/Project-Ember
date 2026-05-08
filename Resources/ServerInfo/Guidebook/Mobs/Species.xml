@@ -6,7 +6,7 @@
   <Box>
   <GuideEntityEmbed Entity="MobDiona" Caption="Diona"/>
   <GuideEntityEmbed Entity="MobHuman" Caption="Human"/>
-  <GuideEntityEmbed Entity="MobReptilian" Caption="Reptilian"/>
+  <GuideEntityEmbed Entity="MobReptilian" Caption="Unathi"/>
   </Box>
 
   # Parkstation specific species
