@@ -16804,3 +16804,10 @@ Entries:
   id: 7320
   time: '2026-05-08T23:32:56.0000000+00:00'
   url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/4
+- author: CynicalWizard
+  changes:
+    - type: Add
+      message: Первичный перевод на русский язык.
+  id: 7321
+  time: '2026-05-10T14:29:10.0000000+00:00'
+  url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/5
