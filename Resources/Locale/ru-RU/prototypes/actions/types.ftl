@@ -1,8 +1,8 @@
-ent-ActivateSmokeImplant = Переключить ночное зрение
+ent-ToggleNightVision = Переключить ночное зрение
     .desc = Переключает ночное зрение.
 
-ent-ActivateSmokeImplant = Переключить тепловизионное зрение
+ent-ToggleThermalVision = Переключить тепловизионное зрение
     .desc = Переключает тепловизионное зрение.
 
-ent-PulseThermalVision = Подать термальный импульт
-    .desc = Временно активируйте тепловизионное зрение.
+ent-PulseThermalVision = Подать термальный импульс
+    .desc = Временно активирует тепловизионное зрение.

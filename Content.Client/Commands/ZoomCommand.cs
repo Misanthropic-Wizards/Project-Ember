@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Console;
+using System.Globalization;
 using System.Numerics;
 
 namespace Content.Client.Commands;
@@ -26,7 +27,7 @@ public sealed class ZoomCommand : LocalizedCommands
             return;
         }
 
-        if (!float.TryParse(args[0], out var arg0))
+        if (!float.TryParse(args[0], CultureInfo.InvariantCulture, out var arg0))
         {
             shell.WriteError(LocalizationManager.GetString("cmd-parse-failure-float", ("arg", args[0])));
             return;
@@ -42,7 +43,7 @@ public sealed class ZoomCommand : LocalizedCommands
 
         if (args.Length == 2)
         {
-            if (!float.TryParse(args[1], out var arg1))
+            if (!float.TryParse(args[1], CultureInfo.InvariantCulture, out var arg1))
             {
                 shell.WriteError(LocalizationManager.GetString("cmd-parse-failure-float", ("arg", args[1])));
                 return;

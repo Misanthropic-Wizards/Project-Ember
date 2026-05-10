@@ -1,0 +1,19 @@
+marking-HumanHairShortBedhead = Короткие растрёпанные
+
+marking-HumanHairBobClassic = Классическое каре
+
+marking-HumanHairMessyClassic = Беспорядочная классическая
+
+marking-HumanHairClassicGentle = Нежная классика
+
+marking-HumanHairClassicNoFade = Фэйд (Классический)
+
+marking-HumanHairClassicLowFade = Фэйд (Низкий, Классический)
+
+marking-HumanHairClassicMedFade = Фэйд (Средний, Классический)
+
+marking-HumanHairClassicOmbre = Классическое омбре
+
+marking-HumanHairClassicCrewcut = Посадочная площадка классическая
+
+marking-HumanHairClassicLong = Классическая длинная стрижка 1
