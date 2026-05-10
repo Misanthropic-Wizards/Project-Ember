@@ -50,9 +50,9 @@ latejoin-arrival-announcement =
         [male] прибыл
         [female] прибыла
        *[other] прибыл
-    } на станцию!
+    } на борт!
 
-latejoin-arrival-announcement-special = {$job} {$character} on deck!
+latejoin-arrival-announcement-special = { $job } { $character } на борту!
 
 latejoin-arrival-sender = Станция
 
