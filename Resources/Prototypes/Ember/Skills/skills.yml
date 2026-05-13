@@ -1,0 +1,210 @@
+- type: skill
+  id: bureaucracy
+  category: organizational
+  name: skill-bureaucracy-name
+  description: skill-bureaucracy-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: &defaultLevels
+  - skill-level-unskilled
+  - skill-level-basic
+  - skill-level-trained
+  - skill-level-experienced
+  - skill-level-master
+
+- type: skill
+  id: finance
+  category: organizational
+  name: skill-finance-name
+  description: skill-finance-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: EVA
+  category: general
+  name: skill-eva-name
+  description: skill-eva-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: exosuit
+  category: general
+  name: skill-exosuit-name
+  description: skill-exosuit-desc
+  difficulty: 2
+  defaultMax: Basic
+  prerequisites:
+    EVA: Trained
+  levels:
+  - skill-level-unskilled
+  - skill-level-basic
+
+- type: skill
+  id: pilot
+  category: general
+  name: skill-pilot-name
+  description: skill-pilot-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: hauling
+  category: general
+  name: skill-hauling-name
+  description: skill-hauling-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: computer
+  category: general
+  name: skill-computer-name
+  description: skill-computer-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: botany
+  category: service
+  name: skill-botany-name
+  description: skill-botany-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: cooking
+  category: service
+  name: skill-cooking-name
+  description: skill-cooking-desc
+  difficulty: 1
+  defaultMax: Master
+  levels: *defaultLevels
+
+- type: skill
+  id: combat
+  category: security
+  name: skill-combat-name
+  description: skill-combat-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: weapons
+  category: security
+  name: skill-weapons-name
+  description: skill-weapons-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: forensics
+  category: security
+  name: skill-forensics-name
+  description: skill-forensics-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: construction
+  category: engineering
+  name: skill-construction-name
+  description: skill-construction-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: electrical
+  category: engineering
+  name: skill-electrical-name
+  description: skill-electrical-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: atmos
+  category: engineering
+  name: skill-atmos-name
+  description: skill-atmos-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: engines
+  category: engineering
+  name: skill-engines-name
+  description: skill-engines-desc
+  difficulty: 3
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: devices
+  category: research
+  name: skill-devices-name
+  description: skill-devices-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: science
+  category: research
+  name: skill-science-name
+  description: skill-science-desc
+  difficulty: 2
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: medical
+  category: medical
+  name: skill-medical-name
+  description: skill-medical-desc
+  difficulty: 3
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: anatomy
+  category: medical
+  name: skill-anatomy-name
+  description: skill-anatomy-desc
+  difficulty: 3
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: chemistry
+  category: medical
+  name: skill-chemistry-name
+  description: skill-chemistry-desc
+  difficulty: 3
+  defaultMax: Trained
+  levels: *defaultLevels
+
+- type: skill
+  id: virology
+  category: medical
+  name: skill-virology-name
+  description: skill-virology-desc
+  difficulty: 4
+  defaultMax: Basic
+  prerequisites:
+    chemistry: Basic
+  levels:
+  - skill-level-unskilled
+  - skill-level-basic

@@ -1,0 +1,34 @@
+- type: skillCategory
+  id: organizational
+  name: skill-category-organizational
+  order: 0
+
+- type: skillCategory
+  id: general
+  name: skill-category-general
+  order: 1
+
+- type: skillCategory
+  id: service
+  name: skill-category-service
+  order: 2
+
+- type: skillCategory
+  id: security
+  name: skill-category-security
+  order: 3
+
+- type: skillCategory
+  id: engineering
+  name: skill-category-engineering
+  order: 4
+
+- type: skillCategory
+  id: research
+  name: skill-category-research
+  order: 5
+
+- type: skillCategory
+  id: medical
+  name: skill-category-medical
+  order: 6

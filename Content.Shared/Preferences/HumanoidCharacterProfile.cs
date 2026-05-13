@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Content.Shared.CCVar;
 using Content.Shared.Clothing.Loadouts.Prototypes;
 using Content.Shared.Clothing.Loadouts.Systems;
+using Content.Shared.Ember.Skills;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
@@ -53,6 +54,9 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
 
     [DataField]
     private HashSet<LoadoutPreference> _loadoutPreferences = new();
+
+    [DataField]
+    private Dictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> _skillPreferences = new();
 
     [DataField]
     public string Name { get; set; } = "John Doe";
@@ -123,6 +127,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
     /// <see cref="_traitPreferences"/>
     public IReadOnlySet<ProtoId<TraitPrototype>> TraitPreferences => _traitPreferences;
 
+    public IReadOnlyDictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> SkillPreferences => _skillPreferences;
+
     /// If we're unable to get one of our preferred jobs do we spawn as a fallback job or do we stay in lobby
     [DataField]
     public PreferenceUnavailableMode PreferenceUnavailable { get; private set; } =
@@ -152,7 +158,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         PreferenceUnavailableMode preferenceUnavailable,
         HashSet<ProtoId<AntagPrototype>> antagPreferences,
         HashSet<ProtoId<TraitPrototype>> traitPreferences,
-        HashSet<LoadoutPreference> loadoutPreferences)
+        HashSet<LoadoutPreference> loadoutPreferences,
+        Dictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>>? skillPreferences = null)
     {
         Name = name;
         FlavorText = flavortext;
@@ -178,6 +185,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         _antagPreferences = antagPreferences;
         _traitPreferences = traitPreferences;
         _loadoutPreferences = loadoutPreferences;
+        _skillPreferences = DeepCopySkillPreferences(skillPreferences);
 
         var hasHighPrority = false;
         foreach (var (key, value) in _jobPriorities)
@@ -220,7 +228,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             other.PreferenceUnavailable,
             new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
             new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-            new HashSet<LoadoutPreference>(other.LoadoutPreferences))
+            new HashSet<LoadoutPreference>(other.LoadoutPreferences),
+            DeepCopySkillPreferences(other.SkillPreferences))
     {
     }
 
@@ -430,6 +439,49 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         return new HumanoidCharacterProfile(this) { _loadoutPreferences = list };
     }
 
+    public byte GetSkillAllocation(ProtoId<JobPrototype> jobId, ProtoId<SkillPrototype> skillId)
+    {
+        return _skillPreferences.TryGetValue(jobId, out var jobSkills)
+            ? jobSkills.GetValueOrDefault(skillId)
+            : (byte) 0;
+    }
+
+    public HumanoidCharacterProfile WithSkillAllocation(
+        ProtoId<JobPrototype> jobId,
+        ProtoId<SkillPrototype> skillId,
+        byte allocation)
+    {
+        var skills = DeepCopySkillPreferences(_skillPreferences);
+
+        if (allocation == 0)
+        {
+            if (skills.TryGetValue(jobId, out var existing))
+            {
+                existing.Remove(skillId);
+                if (existing.Count == 0)
+                    skills.Remove(jobId);
+            }
+        }
+        else
+        {
+            if (!skills.TryGetValue(jobId, out var existing))
+            {
+                existing = new Dictionary<ProtoId<SkillPrototype>, byte>();
+                skills[jobId] = existing;
+            }
+
+            existing[skillId] = allocation;
+        }
+
+        return new(this) { _skillPreferences = skills };
+    }
+
+    public HumanoidCharacterProfile WithSkillAllocations(
+        IReadOnlyDictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> skillPreferences)
+    {
+        return new(this) { _skillPreferences = DeepCopySkillPreferences(skillPreferences) };
+    }
+
     public string Summary =>
         Loc.GetString(
             "humanoid-character-profile-summary",
@@ -457,6 +509,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             && _antagPreferences.SequenceEqual(other._antagPreferences)
             && _traitPreferences.SequenceEqual(other._traitPreferences)
             && LoadoutPreferences.SequenceEqual(other.LoadoutPreferences)
+            && SkillPreferencesEqual(_skillPreferences, other._skillPreferences)
             && Appearance.MemberwiseEquals(other.Appearance)
             && FlavorText == other.FlavorText;
     }
@@ -600,6 +653,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             .Distinct()
             .ToList();
 
+        var skills = SharedSkillsSystem.SanitizeAllocations(prototypeManager, _skillPreferences, speciesPrototype, age);
+
         Name = name;
         Customspeciename = customspeciename;
         FlavorText = flavortext;
@@ -626,6 +681,12 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
 
         _loadoutPreferences.Clear();
         _loadoutPreferences.UnionWith(loadouts);
+
+        _skillPreferences.Clear();
+        foreach (var (job, allocation) in skills)
+        {
+            _skillPreferences[job] = allocation;
+        }
     }
 
     public ICharacterProfile Validated(ICommonSession session, IDependencyCollection collection)
@@ -655,6 +716,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         hashCode.Add(_antagPreferences);
         hashCode.Add(_traitPreferences);
         hashCode.Add(_loadoutPreferences);
+        hashCode.Add(_skillPreferences);
         hashCode.Add(Name);
         hashCode.Add(FlavorText);
         hashCode.Add(Species);
@@ -674,5 +736,41 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
     public HumanoidCharacterProfile Clone()
     {
         return new HumanoidCharacterProfile(this);
+    }
+
+    private static Dictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> DeepCopySkillPreferences(
+        IReadOnlyDictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>>? skillPreferences)
+    {
+        var copy = new Dictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>>();
+
+        if (skillPreferences == null)
+            return copy;
+
+        foreach (var (job, skills) in skillPreferences)
+        {
+            copy[job] = new Dictionary<ProtoId<SkillPrototype>, byte>(skills);
+        }
+
+        return copy;
+    }
+
+    private static bool SkillPreferencesEqual(
+        IReadOnlyDictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> left,
+        IReadOnlyDictionary<ProtoId<JobPrototype>, Dictionary<ProtoId<SkillPrototype>, byte>> right)
+    {
+        if (left.Count != right.Count)
+            return false;
+
+        foreach (var (job, leftSkills) in left)
+        {
+            if (!right.TryGetValue(job, out var rightSkills))
+                return false;
+
+            if (!leftSkills.OrderBy(pair => pair.Key.ToString())
+                    .SequenceEqual(rightSkills.OrderBy(pair => pair.Key.ToString())))
+                return false;
+        }
+
+        return true;
     }
 }
