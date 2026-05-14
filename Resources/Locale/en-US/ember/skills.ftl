@@ -3,18 +3,10 @@ skill-level-basic = Basic
 skill-level-trained = Trained
 skill-level-experienced = Experienced
 skill-level-master = Master
-skill-level-short-unskilled = None
-skill-level-short-basic = Basic
-skill-level-short-trained = Train.
-skill-level-short-experienced = Exp.
-skill-level-short-master = Master
 
 skill-window-title = Skills
 skill-window-empty = Skills are not available for this character yet.
 skill-show-button = Skills
-skill-show-verb = Show skills
-skill-show-verb-disabled = You need to be closer to check your skills.
-skill-examine-entry = - {$skill}: {$level}
 
 humanoid-profile-editor-job-skills-button = Skills
 humanoid-profile-editor-job-skills-button-tooltip = Edit skills for {$job}

@@ -3,18 +3,10 @@ skill-level-basic = Базовый
 skill-level-trained = Обученный
 skill-level-experienced = Опытный
 skill-level-master = Мастер
-skill-level-short-unskilled = Нет
-skill-level-short-basic = Баз.
-skill-level-short-trained = Обуч.
-skill-level-short-experienced = Опыт.
-skill-level-short-master = Мастер
 
 skill-window-title = Навыки
 skill-window-empty = Навыки пока недоступны для этого персонажа.
 skill-show-button = Навыки
-skill-show-verb = Показать навыки
-skill-show-verb-disabled = Нужно быть ближе, чтобы проверить навыки.
-skill-examine-entry = - {$skill}: {$level}
 
 humanoid-profile-editor-job-skills-button = Навыки
 humanoid-profile-editor-job-skills-button-tooltip = Настроить навыки для должности {$job}
