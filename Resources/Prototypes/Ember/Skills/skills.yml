@@ -36,12 +36,13 @@
   name: skill-exosuit-name
   description: skill-exosuit-desc
   difficulty: 2
-  defaultMax: Basic
+  defaultMax: Trained
   prerequisites:
     EVA: Trained
   levels:
   - skill-level-unskilled
-  - skill-level-basic
+  - skill-level-exosuit-civilian
+  - skill-level-exosuit-combat
 
 - type: skill
   id: pilot

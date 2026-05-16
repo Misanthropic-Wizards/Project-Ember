@@ -3,6 +3,8 @@ skill-level-basic = Basic
 skill-level-trained = Trained
 skill-level-experienced = Experienced
 skill-level-master = Master
+skill-level-exosuit-civilian = Civilian
+skill-level-exosuit-combat = Combat
 
 skill-window-title = Skills
 skill-window-empty = Skills are not available for this character yet.

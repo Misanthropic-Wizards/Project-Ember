@@ -3,6 +3,8 @@ skill-level-basic = Базовый
 skill-level-trained = Обученный
 skill-level-experienced = Опытный
 skill-level-master = Мастер
+skill-level-exosuit-civilian = Гражданский
+skill-level-exosuit-combat = Боевой
 
 skill-window-title = Навыки
 skill-window-empty = Навыки пока недоступны для этого персонажа.

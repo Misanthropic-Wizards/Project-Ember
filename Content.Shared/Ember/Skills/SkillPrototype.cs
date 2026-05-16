@@ -30,6 +30,10 @@ public sealed partial class SkillPrototype : IPrototype
     [DataField(required: true)]
     public string Description { get; set; } = default!;
 
+    /// <summary>
+    /// Localized level names for this skill, ordered from Unskilled upward.
+    /// Shorter lists cap the available levels for skills with a smaller ladder.
+    /// </summary>
     [DataField(required: true)]
     public List<string> Levels { get; set; } = new();
 
