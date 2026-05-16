@@ -16811,3 +16811,10 @@ Entries:
   id: 7321
   time: '2026-05-10T14:29:10.0000000+00:00'
   url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/5
+- author: CynicalWizard
+  changes:
+    - type: Add
+      message: Скелет системы навыков, пока без функционала.
+  id: 7322
+  time: '2026-05-16T14:01:08.0000000+00:00'
+  url: https://github.com/Misanthropic-Wizards/Project-Ember/pull/6
