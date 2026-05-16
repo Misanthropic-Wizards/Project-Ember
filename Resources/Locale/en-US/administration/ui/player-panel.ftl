@@ -18,6 +18,7 @@ player-panel-unfreeze = Unfreeze
 player-panel-kick = Kick
 player-panel-ban = Ban
 player-panel-logs = Logs
+player-panel-skills = Skills
 player-panel-delete = Delete
 player-panel-rejuvenate = Rejuvenate
 player-panel-false = False

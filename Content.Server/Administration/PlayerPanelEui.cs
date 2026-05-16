@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Ember.Skills;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Notes;
@@ -119,6 +120,17 @@ public sealed class PlayerPanelEui : BaseEui
                 var ui = new AdminLogsEui();
                 _eui.OpenEui(ui, Player);
                 ui.SetLogFilter(search: _targetPlayer.Username);
+                break;
+            case PlayerPanelSkillsMessage:
+                if (!_admins.HasAdminFlag(Player, AdminFlags.Admin) ||
+                    !_player.TryGetSessionById(_targetPlayer.UserId, out session) ||
+                    session.AttachedEntity == null)
+                    return;
+
+                _adminLog.Add(LogType.Action, $"{Player:actor} opened skills on {_entity.ToPrettyString(session.AttachedEntity):subject}");
+                var skillsUi = new AdminSkillsEui(session.AttachedEntity.Value);
+                _eui.OpenEui(skillsUi, Player);
+                skillsUi.StateDirty();
                 break;
             case PlayerPanelDeleteMessage:
             case PlayerPanelRejuvenationMessage:

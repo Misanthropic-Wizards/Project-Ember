@@ -48,6 +48,9 @@ public sealed class PlayerPanelFreezeMessage : EuiMessageBase
 public sealed class PlayerPanelLogsMessage : EuiMessageBase;
 
 [Serializable, NetSerializable]
+public sealed class PlayerPanelSkillsMessage : EuiMessageBase;
+
+[Serializable, NetSerializable]
 public sealed class PlayerPanelDeleteMessage : EuiMessageBase;
 
 [Serializable, NetSerializable]

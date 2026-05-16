@@ -55,7 +55,8 @@ public sealed class SkillsWindow : DefaultWindow
     public void SetSkills(
         IReadOnlyList<SkillPrototype> skills,
         Func<SkillPrototype, SkillLevel> getLevel,
-        Func<ProtoId<SkillCategoryPrototype>, string> getCategoryName)
+        Func<ProtoId<SkillCategoryPrototype>, string> getCategoryName,
+        Action<SkillPrototype, SkillLevel>? onSelected = null)
     {
         _content.DisposeAllChildren();
 
@@ -70,7 +71,7 @@ public sealed class SkillsWindow : DefaultWindow
                 categoryRows = AddCategory(getCategoryName(skill.Category));
             }
 
-            categoryRows!.AddChild(CreateSkillRow(skill, getLevel(skill)));
+            categoryRows!.AddChild(CreateSkillRow(skill, getLevel(skill), onSelected));
         }
     }
 
@@ -116,7 +117,10 @@ public sealed class SkillsWindow : DefaultWindow
         return rows;
     }
 
-    private BoxContainer CreateSkillRow(SkillPrototype skill, SkillLevel level)
+    private BoxContainer CreateSkillRow(
+        SkillPrototype skill,
+        SkillLevel level,
+        Action<SkillPrototype, SkillLevel>? onSelected)
     {
         var row = new BoxContainer
         {
@@ -135,7 +139,11 @@ public sealed class SkillsWindow : DefaultWindow
             ClipText = true,
         });
 
-        row.AddChild(new SkillLevelBar(skill, level));
+        row.AddChild(new SkillLevelBar(
+            skill,
+            level,
+            onSelected == null ? null : _ => true,
+            onSelected == null ? null : selected => onSelected(skill, selected)));
         return row;
     }
 }

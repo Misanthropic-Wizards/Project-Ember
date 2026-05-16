@@ -17,6 +17,7 @@ admin-player-actions-spawn = Заспавнить тут
 admin-player-spawn-failed = Не удалось найти подходящие координаты
 
 admin-player-actions-player-panel = Открыть панель игрока
+admin-player-actions-skills = Навыки
 
 admin-player-actions-clone = Клонировать
 

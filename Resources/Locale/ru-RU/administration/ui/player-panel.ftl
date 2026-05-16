@@ -36,6 +36,8 @@ player-panel-ban = Забанить
 
 player-panel-logs = Логи
 
+player-panel-skills = Навыки
+
 player-panel-delete = Удалить
 
 player-panel-rejuvenate = Вылечить

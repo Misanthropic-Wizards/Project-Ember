@@ -1,0 +1,7 @@
+- type: antagSkillSet
+  id: GenericAntag
+  defaultLevel: Basic
+  choices:
+    Trained: 4
+    Experienced: 2
+    Master: 1

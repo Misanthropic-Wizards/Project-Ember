@@ -7,8 +7,14 @@ skill-level-exosuit-civilian = Civilian
 skill-level-exosuit-combat = Combat
 
 skill-window-title = Skills
+skill-admin-window-title = Skills: {$target}
+skill-antag-window-title = Antagonist Skills: {$target}
 skill-window-empty = Skills are not available for this character yet.
 skill-show-button = Skills
+skill-antag-summary = Choose extra skills. Remaining: {$remaining}
+skill-antag-summary-locked = You may not reselect your antagonist skills.
+skill-antag-remaining-entry = {$level}: {$count}
+skill-antag-submit = Submit selection
 
 humanoid-profile-editor-job-skills-button = Skills
 humanoid-profile-editor-job-skills-button-tooltip = Edit skills for {$job}

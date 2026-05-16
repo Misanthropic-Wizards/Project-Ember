@@ -7,8 +7,14 @@ skill-level-exosuit-civilian = Гражданский
 skill-level-exosuit-combat = Боевой
 
 skill-window-title = Навыки
+skill-admin-window-title = Навыки: {$target}
+skill-antag-window-title = Навыки антагониста: {$target}
 skill-window-empty = Навыки пока недоступны для этого персонажа.
 skill-show-button = Навыки
+skill-antag-summary = Выберите дополнительные навыки. Осталось: {$remaining}
+skill-antag-summary-locked = Вы не можете повторно выбрать навыки антагониста.
+skill-antag-remaining-entry = {$level}: {$count}
+skill-antag-submit = Подтвердить выбор
 
 humanoid-profile-editor-job-skills-button = Навыки
 humanoid-profile-editor-job-skills-button-tooltip = Настроить навыки для должности {$job}
