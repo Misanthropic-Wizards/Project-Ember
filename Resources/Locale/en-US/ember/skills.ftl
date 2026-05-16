@@ -16,7 +16,6 @@ humanoid-profile-editor-skills-no-profile = Select a character profile to edit s
 humanoid-profile-editor-skills-no-job = Pick a preferred job to edit job skills.
 humanoid-profile-editor-skills-job-label = Skill plan for {$job}
 humanoid-profile-editor-skills-points-label = {$points} / {$max} points remaining
-humanoid-profile-editor-skills-range = Minimum: {$min} / Maximum: {$max}
 humanoid-profile-editor-skills-lower = Lower this skill
 humanoid-profile-editor-skills-raise = Raise this skill
 

@@ -716,6 +716,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         hashCode.Add(_antagPreferences);
         hashCode.Add(_traitPreferences);
         hashCode.Add(_loadoutPreferences);
+        // EMBER-TODO: Skill preferences are compared deeply but hashed by dictionary reference here.
+        // Rewrite this to stable content hashing if profiles become hash keys.
         hashCode.Add(_skillPreferences);
         hashCode.Add(Name);
         hashCode.Add(FlavorText);

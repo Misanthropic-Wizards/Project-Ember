@@ -212,17 +212,6 @@ public sealed class SkillSetupWindow : DefaultWindow
             ClipText = true,
         });
 
-        labelBox.AddChild(new Label
-        {
-            Text = Loc.GetString("humanoid-profile-editor-skills-range",
-                ("min", SkillLevelBar.GetLevelName(skill, min)),
-                ("max", SkillLevelBar.GetLevelName(skill, max))),
-            StyleClasses = { StyleBase.StyleClassLabelSubText },
-            ToolTip = Loc.GetString(skill.Description),
-            HorizontalExpand = true,
-            ClipText = true,
-        });
-
         row.AddChild(labelBox);
         row.AddChild(new SkillLevelBar(
             skill,

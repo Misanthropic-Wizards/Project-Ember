@@ -16,7 +16,6 @@ humanoid-profile-editor-skills-no-profile = Выберите профиль пе
 humanoid-profile-editor-skills-no-job = Выберите предпочитаемую профессию, чтобы настроить навыки.
 humanoid-profile-editor-skills-job-label = План навыков для {$job}
 humanoid-profile-editor-skills-points-label = Осталось очков: {$points} / {$max}
-humanoid-profile-editor-skills-range = Минимум: {$min} / Максимум: {$max}
 humanoid-profile-editor-skills-lower = Понизить этот навык
 humanoid-profile-editor-skills-raise = Повысить этот навык
 
