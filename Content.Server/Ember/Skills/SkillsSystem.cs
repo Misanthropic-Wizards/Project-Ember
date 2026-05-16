@@ -113,7 +113,6 @@ public sealed class SkillsSystem : EntitySystem
         }
 
         Dirty(mob, component);
-        Dirty(mob, selection);
         RaiseLocalEvent(mob, new SkillsLoadedEvent(mob, component));
 
         if (openPicker && !selection.Committed && mind.Session != null)

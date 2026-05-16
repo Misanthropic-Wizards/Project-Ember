@@ -197,18 +197,21 @@ namespace Content.Server.Administration.Systems
                         Impact = LogImpact.Low
                     });
 
-                    args.Verbs.Add(new Verb
+                    if (_adminManager.HasAdminFlag(player, AdminFlags.Admin))
                     {
-                        Text = Loc.GetString("admin-player-actions-skills"),
-                        Category = VerbCategory.Admin,
-                        Act = () =>
+                        args.Verbs.Add(new Verb
                         {
-                            var skillsUi = new AdminSkillsEui(args.Target);
-                            _euiManager.OpenEui(skillsUi, player);
-                            skillsUi.StateDirty();
-                        },
-                        Impact = LogImpact.Low
-                    });
+                            Text = Loc.GetString("admin-player-actions-skills"),
+                            Category = VerbCategory.Admin,
+                            Act = () =>
+                            {
+                                var skillsUi = new AdminSkillsEui(args.Target);
+                                _euiManager.OpenEui(skillsUi, player);
+                                skillsUi.StateDirty();
+                            },
+                            Impact = LogImpact.Low
+                        });
+                    }
                 }
 
                 if (_mindSystem.TryGetMind(args.Target, out _, out var mind) && mind.UserId != null)

@@ -54,7 +54,6 @@ public sealed class AntagSkillsEui : BaseEui
                 break;
             case AntagSkillsDeselectMessage deselect:
                 selection.Selected.Remove(deselect.Skill);
-                _entity.Dirty(_target, selection);
                 break;
             case AntagSkillsSubmitMessage:
                 CommitSelection(selection);
@@ -75,7 +74,6 @@ public sealed class AntagSkillsEui : BaseEui
             return;
 
         selection.Selected[skill.ID] = level;
-        _entity.Dirty(_target, selection);
     }
 
     private bool CanSelect(
@@ -121,7 +119,6 @@ public sealed class AntagSkillsEui : BaseEui
         }
 
         selection.Committed = true;
-        _entity.Dirty(_target, selection);
         _entity.Dirty(_target, skillSet);
         _entity.EventBus.RaiseLocalEvent(_target, new SkillsLoadedEvent(_target, skillSet));
     }
