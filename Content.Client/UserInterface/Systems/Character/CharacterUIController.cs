@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Client.Ember.Skills;
 using Content.Client.CharacterInfo;
 using Content.Client.Gameplay;
 using Content.Client.Stylesheets;
@@ -6,6 +7,7 @@ using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Character.Controls;
 using Content.Client.UserInterface.Systems.Character.Windows;
 using Content.Client.UserInterface.Systems.Objectives.Controls;
+using Content.Shared.Ember.Skills;
 using Content.Shared.Input;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -47,6 +49,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
     }
 
     private CharacterWindow? _window;
+    private SkillsWindow? _skillsWindow;
     private MenuButton? CharacterButton => UIManager.GetActiveUIWidgetOrNull<MenuBar.Widgets.GameTopMenuBar>()?.CharacterButton;
 
     public void OnStateEntered(GameplayState state)
@@ -55,8 +58,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
 
         _window = UIManager.CreateWindow<CharacterWindow>();
         LayoutContainer.SetAnchorPreset(_window, LayoutContainer.LayoutPreset.CenterTop);
-
-
+        _window.SkillsButton.OnPressed += SkillsButtonPressed;
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.OpenCharacterMenu,
@@ -70,6 +72,12 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         {
             _window.Dispose();
             _window = null;
+        }
+
+        if (_skillsWindow != null)
+        {
+            _skillsWindow.Dispose();
+            _skillsWindow = null;
         }
 
         CommandBinds.Unregister<CharacterUIController>();
@@ -133,6 +141,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
 
         _window.NameLabel.Text = entityName;
         _window.SubText.Text = job;
+        _window.SkillsButton.Disabled = !_ent.HasComponent<SkillSetComponent>(entity);
         _window.Objectives.RemoveAllChildren();
         _window.ObjectivesLabel.Visible = objectives.Any();
 
@@ -233,6 +242,59 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
     private void CharacterButtonPressed(ButtonEventArgs args)
     {
         ToggleWindow();
+    }
+
+    private void SkillsButtonPressed(ButtonEventArgs args)
+    {
+        if (_player.LocalEntity is not { } entity)
+            return;
+
+        if (_skillsWindow == null || _skillsWindow.Disposed)
+        {
+            _skillsWindow = UIManager.CreateWindow<SkillsWindow>();
+        }
+
+        if (!_ent.TryGetComponent(entity, out SkillSetComponent? skills))
+        {
+            _skillsWindow.SetEmpty();
+        }
+        else
+        {
+            _skillsWindow.SetSkills(GetOrderedSkills(), skill => GetLevel(skills, skill), GetCategoryName);
+        }
+
+        _skillsWindow.OpenCentered();
+    }
+
+    private SkillPrototype[] GetOrderedSkills()
+    {
+        return _prototypeManager.EnumeratePrototypes<SkillPrototype>()
+            .OrderBy(GetCategoryOrder)
+            .ThenBy(skill => Loc.GetString(skill.Name))
+            .ToArray();
+    }
+
+    private int GetCategoryOrder(SkillPrototype skill)
+    {
+        return _prototypeManager.TryIndex(skill.Category, out SkillCategoryPrototype? category)
+            ? category.Order
+            : int.MaxValue;
+    }
+
+    private string GetCategoryName(ProtoId<SkillCategoryPrototype> categoryId)
+    {
+        return _prototypeManager.TryIndex(categoryId, out SkillCategoryPrototype? category)
+            ? Loc.GetString(category.Name)
+            : categoryId;
+    }
+
+    private SkillLevel GetLevel(SkillSetComponent component, SkillPrototype skill)
+    {
+        var level = component.BaseSkills.GetValueOrDefault(skill.ID, component.DefaultLevel);
+        return (SkillLevel) Math.Clamp(
+            (int) level + component.Modifiers.GetValueOrDefault(skill.ID),
+            (int) SkillLevels.Min,
+            (int) SkillLevels.Max);
     }
 
     private void CloseWindow()

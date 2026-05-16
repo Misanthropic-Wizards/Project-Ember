@@ -1,4 +1,5 @@
 using Content.Shared.Access;
+using Content.Shared.Ember.Skills;
 using Content.Shared.Guidebook;
 using Content.Shared.Customization.Systems;
 using Content.Shared.Dataset;
@@ -23,6 +24,18 @@ namespace Content.Shared.Roles
 
         [DataField("playTimeTracker", required: true, customTypeSerializer: typeof(PrototypeIdSerializer<PlayTimeTrackerPrototype>))]
         public string PlayTimeTracker { get; private set; } = string.Empty;
+
+        [DataField]
+        public int SkillPoints { get; set; } = 16;
+
+        [DataField]
+        public Dictionary<ProtoId<SkillPrototype>, SkillLevel> MinSkills { get; set; } = new();
+
+        [DataField]
+        public Dictionary<ProtoId<SkillPrototype>, SkillLevel> MaxSkills { get; set; } = new();
+
+        [DataField]
+        public bool NoSkillBuffs { get; set; }
 
         /// <summary>
         ///     Who is the supervisor for this job.

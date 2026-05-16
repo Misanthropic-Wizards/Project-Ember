@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Content.Client.Administration.UI;
+using Content.Client.Ember.Skills;
 using Content.Client.Humanoid;
 using Content.Client.Message;
 using Content.Client.Players.PlayTimeTracking;
@@ -17,6 +18,7 @@ using Content.Shared.Clothing.Loadouts.Prototypes;
 using Content.Shared.Clothing.Loadouts.Systems;
 using Content.Shared.Customization.Systems;
 using Content.Shared.Dataset;
+using Content.Shared.Ember.Skills;
 using Content.Shared.GameTicking;
 using Content.Shared.Guidebook;
 using Content.Shared.Humanoid;
@@ -110,6 +112,8 @@ namespace Content.Client.Lobby.UI
         private bool _customizeBorgName;
 
         private List<(string, RequirementsSelector)> _jobPriorities = new();
+        private SkillSetupWindow? _skillSetupWindow;
+        private JobPrototype? _skillSetupJob;
 
         private readonly Dictionary<string, BoxContainer> _jobCategories;
 
@@ -951,6 +955,7 @@ namespace Content.Client.Lobby.UI
 
             RefreshAntags();
             RefreshJobs();
+            UpdateSkills();
             RefreshSpecies();
             RefreshNationalities();
             RefreshEmployers();
@@ -1085,6 +1090,16 @@ namespace Content.Client.Lobby.UI
                     var jobContainer = new BoxContainer { Orientation = LayoutOrientation.Horizontal, HorizontalExpand = true, };
                     var selector = new RequirementsSelector { Margin = new(3f, 3f, 3f, 0f), HorizontalExpand = true, };
                     selector.OnOpenGuidebook += OnOpenGuidebook;
+                    var skillsButton = new Button
+                    {
+                        Text = Loc.GetString("humanoid-profile-editor-job-skills-button"),
+                        MinWidth = 90,
+                        Margin = new(3f, 3f, 3f, 0f),
+                        VerticalAlignment = VAlignment.Center,
+                        ToolTip = Loc.GetString("humanoid-profile-editor-job-skills-button-tooltip",
+                            ("job", job.LocalizedName)),
+                    };
+                    skillsButton.OnPressed += _ => OpenSkillSetup(job);
 
                     var icon = new TextureRect
                     {
@@ -1138,11 +1153,13 @@ namespace Content.Client.Lobby.UI
                         ReloadPreview();
 
                         UpdateJobPriorities();
+                        UpdateSkills();
                         SetDirty();
                     };
 
                     _jobPriorities.Add((job.ID, selector));
                     jobContainer.AddChild(selector);
+                    jobContainer.AddChild(skillsButton);
                     category.AddChild(jobContainer);
                 }
             }
@@ -1262,6 +1279,10 @@ namespace Content.Client.Lobby.UI
             if (!disposing)
                 return;
 
+            _skillSetupWindow?.Close();
+            _skillSetupWindow = null;
+            _skillSetupJob = null;
+
             _entManager.DeleteEntity(PreviewDummy);
             PreviewDummy = EntityUid.Invalid;
 
@@ -1271,6 +1292,7 @@ namespace Content.Client.Lobby.UI
         private void SetAge(int newAge)
         {
             Profile = Profile?.WithAge(newAge);
+            UpdateSkills();
             ReloadPreview();
         }
 
@@ -1347,6 +1369,7 @@ namespace Content.Client.Lobby.UI
             UpdateHeightWidthSliders();
             UpdateWeight();
             UpdateSpeciesGuidebookIcon();
+            UpdateSkills();
             ReloadProfilePreview();
             ReloadClothes(); // Species may have job-specific gear, reload the clothes
         }
@@ -1460,6 +1483,95 @@ namespace Content.Client.Lobby.UI
                 var priority = Profile?.JobPriorities.GetValueOrDefault(jobId, JobPriority.Never) ?? JobPriority.Never;
                 prioritySelector.Select((int) priority);
             }
+        }
+
+        private void UpdateSkills()
+        {
+            RefreshSkillSetupWindow();
+        }
+
+        private void OpenSkillSetup(JobPrototype job)
+        {
+            if (Profile == null)
+                return;
+
+            _skillSetupJob = job;
+
+            if (_skillSetupWindow == null)
+            {
+                var window = new SkillSetupWindow();
+                window.OnClose += () =>
+                {
+                    if (_skillSetupWindow != window)
+                        return;
+
+                    _skillSetupWindow = null;
+                    _skillSetupJob = null;
+                };
+
+                _skillSetupWindow = window;
+            }
+
+            RefreshSkillSetupWindow();
+
+            if (!_skillSetupWindow.IsOpen)
+                _skillSetupWindow.OpenCentered();
+        }
+
+        private void RefreshSkillSetupWindow()
+        {
+            if (_skillSetupWindow == null || _skillSetupJob == null || Profile == null)
+                return;
+
+            var skills = GetOrderedSkills();
+            var allocation = Profile.SkillPreferences.TryGetValue(_skillSetupJob.ID, out var stored)
+                ? new Dictionary<ProtoId<SkillPrototype>, byte>(stored)
+                : new Dictionary<ProtoId<SkillPrototype>, byte>();
+
+            _prototypeManager.TryIndex(Profile.Species, out SpeciesPrototype? speciesPrototype);
+            var skillPointBudget = SharedSkillsSystem.GetSkillPointBudget(_skillSetupJob, speciesPrototype, Profile.Age);
+            allocation = SharedSkillsSystem.SanitizeAllocation(_skillSetupJob, skills, allocation, skillPointBudget);
+
+            _skillSetupWindow.SetSkills(
+                _skillSetupJob,
+                skills,
+                allocation,
+                skillPointBudget,
+                GetSkillCategoryName,
+                SetSkillLevel);
+        }
+
+        private void SetSkillLevel(JobPrototype job, SkillPrototype skill, SkillLevel target, SkillLevel min)
+        {
+            if (Profile == null)
+                return;
+
+            var allocation = (byte) Math.Max(0, (int) target - (int) min);
+            Profile = Profile.WithSkillAllocation(job.ID, skill.ID, allocation);
+            IsDirty = true;
+            UpdateSkills();
+        }
+
+        private SkillPrototype[] GetOrderedSkills()
+        {
+            return _prototypeManager.EnumeratePrototypes<SkillPrototype>()
+                .OrderBy(GetSkillCategoryOrder)
+                .ThenBy(skill => Loc.GetString(skill.Name))
+                .ToArray();
+        }
+
+        private int GetSkillCategoryOrder(SkillPrototype skill)
+        {
+            return _prototypeManager.TryIndex(skill.Category, out SkillCategoryPrototype? category)
+                ? category.Order
+                : int.MaxValue;
+        }
+
+        private string GetSkillCategoryName(ProtoId<SkillCategoryPrototype> categoryId)
+        {
+            return _prototypeManager.TryIndex(categoryId, out SkillCategoryPrototype? category)
+                ? Loc.GetString(category.Name)
+                : categoryId;
         }
 
         private void UpdateSexControls()

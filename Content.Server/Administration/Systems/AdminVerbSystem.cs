@@ -1,6 +1,7 @@
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.UI;
+using Content.Server.Ember.Skills;
 using Content.Server.Disposal.Tube;
 using Content.Server.Disposal.Tube.Components;
 using Content.Server.EUI;
@@ -195,6 +196,22 @@ namespace Content.Server.Administration.Systems
                         Act = () => _console.ExecuteCommand(player, $"playerpanel \"{targetActor.PlayerSession.UserId}\""),
                         Impact = LogImpact.Low
                     });
+
+                    if (_adminManager.HasAdminFlag(player, AdminFlags.Admin))
+                    {
+                        args.Verbs.Add(new Verb
+                        {
+                            Text = Loc.GetString("admin-player-actions-skills"),
+                            Category = VerbCategory.Admin,
+                            Act = () =>
+                            {
+                                var skillsUi = new AdminSkillsEui(args.Target);
+                                _euiManager.OpenEui(skillsUi, player);
+                                skillsUi.StateDirty();
+                            },
+                            Impact = LogImpact.Low
+                        });
+                    }
                 }
 
                 if (_mindSystem.TryGetMind(args.Target, out _, out var mind) && mind.UserId != null)

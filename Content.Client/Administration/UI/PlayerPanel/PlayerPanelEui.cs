@@ -36,6 +36,7 @@ public sealed class PlayerPanelEui : BaseEui
         PlayerPanel.OnFreezeAndMuteToggle += () => SendMessage(new PlayerPanelFreezeMessage(true));
         PlayerPanel.OnFreeze += () => SendMessage(new PlayerPanelFreezeMessage());
         PlayerPanel.OnLogs += () => SendMessage(new PlayerPanelLogsMessage());
+        PlayerPanel.OnSkills += () => SendMessage(new PlayerPanelSkillsMessage());
         PlayerPanel.OnRejuvenate += () => SendMessage(new PlayerPanelRejuvenationMessage());
         PlayerPanel.OnDelete+= () => SendMessage(new PlayerPanelDeleteMessage());
 

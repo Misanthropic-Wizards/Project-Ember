@@ -1,3 +1,4 @@
+using Content.Shared.Ember.Skills;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
@@ -126,6 +127,12 @@ public sealed partial class SpeciesPrototype : IPrototype
     /// </summary>
     [DataField]
     public int MaxAge = 120;
+
+    /// <summary>
+    ///     Optional skill point bonuses by age. If empty, skills use a Sierra-like curve derived from this species' age bands.
+    /// </summary>
+    [DataField]
+    public List<SkillAgePointBracket> SkillAgePoints = new();
 
     /// <summary>
     ///     The minimum height and width ratio for this species

@@ -24,6 +24,7 @@ public sealed partial class PlayerPanel : FancyWindow
     public event Action? OnFreezeAndMuteToggle;
     public event Action? OnFreeze;
     public event Action? OnLogs;
+    public event Action? OnSkills;
     public event Action? OnDelete;
     public event Action? OnRejuvenate;
 
@@ -50,6 +51,7 @@ public sealed partial class PlayerPanel : FancyWindow
             FreezeButton.OnPressed += _ => OnFreeze?.Invoke();
             FreezeAndMuteToggleButton.OnPressed += _ => OnFreezeAndMuteToggle?.Invoke();
             LogsButton.OnPressed += _ => OnLogs?.Invoke();
+            SkillsButton.OnPressed += _ => OnSkills?.Invoke();
             DeleteButton.OnPressed += _ => OnDelete?.Invoke();
             RejuvenateButton.OnPressed += _ => OnRejuvenate?.Invoke();
     }
@@ -126,6 +128,7 @@ public sealed partial class PlayerPanel : FancyWindow
         WhitelistToggle.Disabled =
             !(_adminManager.CanCommand("whitelistadd") && _adminManager.CanCommand("whitelistremove"));
         LogsButton.Disabled = !_adminManager.CanCommand("adminlogs");
+        SkillsButton.Disabled = !_adminManager.HasFlag(AdminFlags.Admin);
         RejuvenateButton.Disabled = !_adminManager.HasFlag(AdminFlags.Debug);
         DeleteButton.Disabled = !_adminManager.HasFlag(AdminFlags.Debug);
     }
